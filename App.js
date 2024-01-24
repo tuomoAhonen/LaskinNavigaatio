@@ -1,17 +1,29 @@
 import {StatusBar} from 'expo-status-bar';
 import {useState} from 'react';
-import {Button, StyleSheet, Text, TextInput, View} from 'react-native';
+import {Button, FlatList, StyleSheet, Text, TextInput, View} from 'react-native';
 
 export default function App() {
 	const [result, setResult] = useState(0);
 	const [input1, setInput1] = useState(0);
 	const [input2, setInput2] = useState(0);
 
+	const [historyList, setHistoryList] = useState([]);
+
 	//if (result === null) setResult(0);
 
-	const handlePlus = () => setResult(input1 + input2);
+	const handlePlus = () => {
+		if (!input1 || !input2) return;
+		setResult(input1 + input2);
+		setHistoryList([...historyList, `${input1} + ${input2} = ${input1 + input2}`]);
+	};
 
-	const handleMinus = () => setResult(input1 - input2);
+	const handleMinus = () => {
+		if (!input1 || !input2) return;
+		setResult(input1 - input2);
+		setHistoryList([...historyList, `${input1} - ${input2} = ${input1 - input2}`]);
+	};
+
+	//console.log(historyList);
 
 	return (
 		<View style={styles.container}>
@@ -26,6 +38,15 @@ export default function App() {
 					<Button title='-' onPress={handleMinus} />
 				</View>
 			</View>
+			<FlatList
+				data={historyList}
+				renderItem={({index, item}) => (
+					<View key={index}>
+						<Text>{item}</Text>
+					</View>
+				)}
+				style={styles.flatList}
+			/>
 			<StatusBar style='auto' />
 		</View>
 	);
@@ -33,12 +54,14 @@ export default function App() {
 
 const styles = StyleSheet.create({
 	container: {
+		marginTop: StatusBar.currentHeight + 50 || 50,
 		flex: 1,
 		backgroundColor: '#fff',
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
 	result: {
+		margin: 5,
 		fontSize: 70,
 	},
 	textInput: {
@@ -57,6 +80,12 @@ const styles = StyleSheet.create({
 	buttonView: {
 		margin: 5,
 		width: 30,
+	},
+	flatList: {
+		margin: 5,
+	},
+	flatListItem: {
+		marginBottom: 5,
 	},
 });
 
