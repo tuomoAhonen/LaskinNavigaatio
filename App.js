@@ -16,8 +16,8 @@ export default function App() {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.result}>{result ? result : 0}</Text>
-			<TextInput keyboardType='number-pad' onChangeText={(e) => setInput1(parseInt(e))} style={styles.textInput} />
-			<TextInput keyboardType='number-pad' onChangeText={(e) => setInput2(parseInt(e))} style={styles.textInput} />
+			<TextInput keyboardType='numeric' onChangeText={(e) => setInput1(parseInt(e))} style={styles.textInput} />
+			<TextInput keyboardType='numeric' onChangeText={(e) => setInput2(parseInt(e))} style={styles.textInput} />
 			<View style={styles.buttonsView}>
 				<View style={styles.buttonView}>
 					<Button title='+' onPress={handlePlus} />
