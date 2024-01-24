@@ -4,23 +4,29 @@ import {Button, FlatList, StyleSheet, Text, TextInput, View} from 'react-native'
 
 export default function App() {
 	const [result, setResult] = useState(0);
-	const [input1, setInput1] = useState(0);
-	const [input2, setInput2] = useState(0);
+	const [input1, setInput1] = useState(null);
+	const [input2, setInput2] = useState(null);
 
 	const [historyList, setHistoryList] = useState([]);
 
 	//if (result === null) setResult(0);
+	const clearInputs = () => {
+		setInput1(null);
+		setInput2(null);
+	};
 
 	const handlePlus = () => {
 		if (!input1 || !input2) return;
 		setResult(input1 + input2);
 		setHistoryList([...historyList, `${input1} + ${input2} = ${input1 + input2}`]);
+		clearInputs();
 	};
 
 	const handleMinus = () => {
 		if (!input1 || !input2) return;
 		setResult(input1 - input2);
 		setHistoryList([...historyList, `${input1} - ${input2} = ${input1 - input2}`]);
+		clearInputs();
 	};
 
 	//console.log(historyList);
@@ -28,8 +34,18 @@ export default function App() {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.result}>{result ? result : 0}</Text>
-			<TextInput keyboardType='numeric' onChangeText={(e) => setInput1(parseInt(e))} style={styles.textInput} />
-			<TextInput keyboardType='numeric' onChangeText={(e) => setInput2(parseInt(e))} style={styles.textInput} />
+			<TextInput
+				keyboardType='numeric'
+				value={input1 ? String(input1) : null}
+				onChangeText={(e) => setInput1(parseInt(e))}
+				style={styles.textInput}
+			/>
+			<TextInput
+				keyboardType='numeric'
+				value={input2 ? String(input2) : null}
+				onChangeText={(e) => setInput2(parseInt(e))}
+				style={styles.textInput}
+			/>
 			<View style={styles.buttonsView}>
 				<View style={styles.buttonView}>
 					<Button title='+' onPress={handlePlus} />
